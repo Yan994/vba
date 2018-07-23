@@ -1,0 +1,129 @@
+﻿Private Sub Worksheet_Activate()
+  MsgBox "你现在激活的工作表是：" & ActiveSheet.Name
+End Sub
+----------------------------------------------------------------------------
+Sub 绝对值()
+  a = InputBox("请输入数值：", "提示")
+  labs = Abs(a)
+  MsgBox labs
+End Sub
+'当需在VBA语句里使用不能直接调用的工作表函数时，代码为：application.worksheetfunction.counta(range("a1:d10"))
+----------------------------------------------------------------------------
+Sub if语句()
+  If [a1]="" Then
+      MsgBox "A1单元格没有输入数字。"
+  End If  '注意不要丢掉end if。
+End Sub
+
+Sub ifelse语句()
+  If [a1]="" Then
+      MsgBox "A1单元格没有输入数字。"
+  Else
+      MsgBox "A1单元格已经输入数字。"
+  End If
+End Sub
+
+Sub if嵌套语句()
+  If [a1]="" Then
+      MsgBox "A1单元格没有输入数字。"
+  ElseIf [a1] Mod 2 = 0 Then
+      MsgBox "A1单元格的数能被2整除。"
+  Else
+      MsgBox "A1单元格的数不能被2整除。"
+  End If
+End Sub
+----------------------------------------------------------------------------
+Sub 条件语句()  '当判断条件太过复杂时比较适用
+  Select Case [a1].Value
+      Case ""
+          MsgBox "A1单元格没有输入数字。"
+      Case Is < 30
+          MsgBox "M1"
+      Case Is < 60
+          MsgBox "M2"
+      Case Else
+          MsgBox "M2+"
+  End Select
+End Sub
+----------------------------------------------------------------------------
+Sub 求1到1000的自然数和()   'for过程中，当满足条件不再继续遍历时，以exit for结尾
+  Dim lsum As Long, i As Long
+  For i = 1 To 1000
+      lsum = lsum + i
+  Next    'for后接next
+  MsgBox "1到1000的自然数和为：" & lsum
+End Sub
+----------------------------------------------------------------------------
+Sub 求1到10000之间偶数和()
+  Dim i&, j&
+  For i = 0 To 10000 Step 2 '或者倒过来setp -2
+      j = j + i
+  Next
+  MsgBox "1到10000之间偶数和为：" & j
+End Sub
+----------------------------------------------------------------------------
+Sub 列示工作表名称()
+  Dim i As Integer, sht As Worksheet
+  i = 1
+  For Each sht In Worksheets
+      Cells(i, 1) = sht.Name
+      i = i + 1  '让写入名称的单元格下移一行
+  Next
+End Sub
+----------------------------------------------------------------------------
+Sub 循环语句求和()
+  Dim lsum As Long, i As Long
+  i = 1
+  Do While i <= 1000  'while语句也可以放在loop之后，即先运行语句后判断条件
+      lsum = lsum + i
+      i = i + 1
+  Loop
+  MsgBox "1到1000的自然数和为：" & lsum
+End Sub
+----------------------------------------------------------------------------
+Sub until语句求和()
+  Dim lsum As Long, i As Long
+  i = 1
+  Do Until i > 1000
+      lsum = lsum + i
+      i = i + 1
+  Loop
+  MsgBox "1到1000的自然数和为：" & lsum
+End Sub
+----------------------------------------------------------------------------
+Sub goto语句求和()
+  Dim lsum As Long, i As Long
+  i = 1
+  x:  '为go to语句设置的标签，必须以英文状态下的冒号结尾
+      lsum = lsum + i
+      i = i + 1
+  If i <= 1000 Then GoTo x    '如果i<=1000，则程序跳到标签x处
+  MsgBox "1到1000的自然数和为：" & lsum
+End Sub
+----------------------------------------------------------------------------
+Private Sub 确定_Click()   '窗体中的按钮背后的代码
+  If 内容.Value = "" Then
+      MsgBox "文本框里没有输入任何内容！"
+      Exit Sub  '退出sub过程，不再执行下面的语句
+  End If
+  MsgBox "文字框里输入的内容是：" & Chr(13) & 内容.Value
+End Sub
+----------------------------------------------------------------------------
+Sub 计算账龄()
+  Dim n1, n2, m, m0, i, j As Integer
+  n1 = 3   '逾期天数列数
+  n2 = 4   '账龄列数
+  m = 104  '总行数
+  m0 = 2   '起始行数
+  For i = m0 To m
+      For j = 1 To 12
+          If (Cells(i, n1) <= 30 * j And Cells(i, n1) > 30 * (j - 1)) Then
+              Cells(i, n2) = "M" & j
+          End If
+      Next j
+      If Cells(i, n1) > 360 Then
+          Cells(i, n2) = "M12+"
+      End If
+  Next i
+End Sub
+----------------------------------------------------------------------------
