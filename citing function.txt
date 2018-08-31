@@ -127,3 +127,11 @@ Sub 计算账龄()
   Next i
 End Sub
 ----------------------------------------------------------------------------
+Sub time_change()
+  Dim n1, n2, i As Integer
+  n1 = 2  '起始单元格行数
+  n2 = 9048   '结尾单元格行数
+  For i = n1 To n2
+    Cells(i, 17) = Format(Cells(i, 17), "yyyy/mm/dd h:mm")
+  Next i 
+End Sub
